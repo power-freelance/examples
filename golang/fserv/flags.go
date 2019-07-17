@@ -3,6 +3,11 @@ package fserv
 import "github.com/urfave/cli"
 
 var FlagDefinitions = []cli.Flag{
+	cli.BoolFlag{
+		Name:   "debug",
+		Usage:  "Debug mode",
+		EnvVar: "DEBUG",
+	},
 	cli.StringFlag{
 		Name:   "listenAddr",
 		Usage:  "The address with the port on which the server will be launched.",
@@ -19,12 +24,14 @@ var FlagDefinitions = []cli.Flag{
 
 func NewFlags(c *cli.Context) *Flags {
 	return &Flags{
+		Debug:      c.Bool("debug"),
 		ListenAddr: c.String("listenAddr"),
 		StaticRoot: c.String("staticRoot"),
 	}
 }
 
 type Flags struct {
+	Debug      bool
 	ListenAddr string
 	StaticRoot string
 }
