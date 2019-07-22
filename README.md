@@ -6,5 +6,7 @@ This repository contains sample code.
 
 - [Golang](golang/) 
   - [FServ](golang/fserv/)
+- [Python](python/)
+  - [freelance-parser](python/freelance-parser)
 - [Misc](misc/)
   - [socket.io-chat](misc/socket.io-chat)
