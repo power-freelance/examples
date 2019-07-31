@@ -10,3 +10,5 @@ This repository contains sample code.
   - [freelance-parser](python/freelance-parser)
 - [Misc](misc/)
   - [socket.io-chat](misc/socket.io-chat)
+- [Bash](bash/)
+  - [post-install-docker](bash/post-install-docker)
