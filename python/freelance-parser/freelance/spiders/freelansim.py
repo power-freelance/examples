@@ -12,7 +12,7 @@ re_price_amount = re.compile(r'\D*')
 class FreelansimSpider(scrapy.Spider):
     name = 'freelansim'
     allowed_domains = ['freelansim.ru']
-    start_urls = ['http://freelansim.ru/']
+    start_urls = ['https://freelansim.ru/']
 
     def parse(self, response):
         for dom_item in response.css('.content-list__item'):
@@ -26,7 +26,7 @@ class FreelansimSpider(scrapy.Spider):
             task_price_amount = self.get_price_amount(dom_item)
             task_price_period = self.get_price_period(dom_item)
 
-            yield TaskItem(
+            item = TaskItem(
                 url=task_url,
                 title=task_title,
                 views=task_views,
@@ -37,6 +37,14 @@ class FreelansimSpider(scrapy.Spider):
                 price_amount=task_price_amount,
                 price_period=task_price_period
             )
+
+            yield scrapy.Request(url=task_url, callback=self.parse_detail, meta={"item": item})
+
+    def parse_detail(self, response):
+        item = response.meta.get('item')
+        item['description'] = response.css('.task__description').xpath('text()').extract_first().strip()
+
+        yield item
 
     @staticmethod
     def get_views(dom_item):

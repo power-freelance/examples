@@ -14,6 +14,7 @@ PRICE_PERIOD_PROJECT = 'project'
 class TaskItem(scrapy.Item):
     url = scrapy.Field()
     title = scrapy.Field()
+    description = scrapy.Field()
     views = scrapy.Field(serializer=int)
     responses = scrapy.Field(serializer=int)
     is_safe_deal = scrapy.Field(serializer=bool)
