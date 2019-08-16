@@ -1,5 +1,6 @@
 import time
 import os
+import pickle
 
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -25,6 +26,7 @@ class Robot:
         self.user_agent = os.environ.get('USER_AGENT', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36')
         self.locale = os.environ.get('LOCALE', 'ru,ru_RU')
         self.chromedriver_path = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
+        self.cookie_path = os.environ.get('COOKIE_PATH', '/tmp/cookie.pkl')
         # TODO: other robot settings
         # self.param = os.environ.get('PARAM', 'default_value')
 
@@ -38,8 +40,17 @@ class Robot:
         Exec job
         :return:
         """
-        # TODO write code here :)
+        try:
+            self.inner_start()
+        except BaseException as e:
+            os.exit('%s' % e)
+        finally:
+            self.driver.close()
 
+    def inner_start(self):
+        # TODO write code here :)
+        pass
+    
     def get_driver(self):
         """
         Get Driver
@@ -76,6 +87,24 @@ class Robot:
         opts.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
         return opts
+
+    def store_cookies(self):
+        pickle.dump(self.driver.get_cookies(), open(self.cookie_path, 'wb'))
+
+    def load_cookies(self):
+        """
+        load cookeis.
+
+        Look up and load cookies
+        """
+        if os.path.exists(self.cookie_path):
+            print('load cookies from %s' % self.cookie_path)
+            cookies = pickle.load(open(self.cookie_path, 'rb'))
+            for cookie in cookies:
+                # FIXME set correct expiry?
+                if 'expiry' in cookie:
+                    del cookie['expiry']
+                self.driver.add_cookie(cookie)
 
     @staticmethod
     def in_docker():
