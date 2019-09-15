@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 import pickle
 
 from selenium.common.exceptions import WebDriverException
@@ -43,7 +44,7 @@ class Robot:
         try:
             self.inner_start()
         except BaseException as e:
-            os.exit('%s' % e)
+            sys.exit('%s' % e)
         finally:
             self.driver.close()
 
