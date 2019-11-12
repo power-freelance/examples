@@ -11,6 +11,7 @@ usermod -aG sudo ubuntu
 echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 sed -i "s/#Port 22/Port 2222/" /etc/ssh/sshd_config
+service sshd restart
 
 ufw allow 2222
 ufw allow 80
