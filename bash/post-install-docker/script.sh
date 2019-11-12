@@ -10,7 +10,9 @@ adduser --disabled-password --gecos "" ubuntu
 usermod -aG sudo ubuntu
 echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-ufw allow OpenSSH
+sed -i "s/#Port 22/Port 2222/" /etc/ssh/sshd_config
+
+ufw allow 2222
 ufw allow 80
 ufw allow 443
 ufw --force enable
