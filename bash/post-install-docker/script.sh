@@ -24,7 +24,7 @@ rsync --archive --chown=ubuntu:ubuntu ~/.ssh /home/ubuntu
 
 # Requirements
 apt update
-apt install python-minimal apt-transport-https ca-certificates curl gnupg-agent software-properties-common -yq
+apt install python apt-transport-https ca-certificates curl gnupg-agent software-properties-common -yq
 
 # Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
